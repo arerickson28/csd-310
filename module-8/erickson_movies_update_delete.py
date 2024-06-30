@@ -27,10 +27,33 @@ try:
         for film in films:
             print(f"Film Name: {film[0]}\nDirector: {film[1]}\nGenre Name: {film[2]}\nStudio Name: {film[3]}\n")
 
-
-
     show_films(mycursor, "DISPLAYING FILMS")
 
+#   UPDATING
+    insert_into_genre_query = "INSERT INTO genre (genre_name) VALUES ('SciFi Drama')"
+    mycursor.execute(insert_into_genre_query)
+    select_genre_sub_query = "SELECT genre_id FROM genre WHERE genre_name = 'SciFi Drama'"
+
+    insert_into_studio_query = "INSERT INTO studio (studio_name) VALUES ('FilmNation Entertainment')"
+    mycursor.execute(insert_into_studio_query)
+    select_studio_sub_query = "SELECT studio_id FROM studio WHERE studio_name = 'FilmNation Entertainment'"
+
+    insert_into_film_query = f"INSERT INTO film (film_name, film_releaseDate, film_runtime,film_director, genre_id, studio_id) VALUES ('Arrival', '2016', '116', 'Denis Villeneuve', ({select_genre_sub_query}), ({select_studio_sub_query}))"
+    mycursor.execute(insert_into_film_query)
+
+    show_films(mycursor, "DISPLAYING FILMS AFTER INSERT")
+
+#   UPDATING
+    select_horror_sub_query = "SELECT genre_id FROM genre WHERE genre_name = 'Horror'"
+    update_query = f"UPDATE film SET genre_id = ({select_horror_sub_query}) WHERE film_name = 'Alien'"
+    mycursor.execute(update_query)
+
+    show_films(mycursor, "DISPLAYING FILMS AFTER UPDATE - Changed Alien to Horror")
+
+    delete_query = "DELETE FROM film WHERE film_name = 'Gladiator'"
+    mycursor.execute(delete_query)
+
+    show_films(mycursor, "DISPLAYING FILMS AFTER DELETE")
 
 except mysql.connector.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
