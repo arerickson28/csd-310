@@ -50,7 +50,7 @@ try:
         return sub_2h_movies_records_message
     
     def display_films_by_alphabetical_director_data(director_films):
-        films_by_director_message = "---- DISPLAYING Director RECORDS in Order---\n"
+        films_by_director_message = "---- DISPLAYING Director RECORDS in Order ---\n"
         for film in director_films:
             films_by_director_message += f'\nFilm Name: {film[0]} \nDirector: {film[1]} \n'
         films_by_director_message += "\n"
