@@ -29,7 +29,7 @@ try:
 
     show_films(mycursor, "DISPLAYING FILMS")
 
-#   UPDATING
+#   INSERTING
     insert_into_genre_query = "INSERT INTO genre (genre_name) VALUES ('SciFi Drama')"
     mycursor.execute(insert_into_genre_query)
     select_genre_sub_query = "SELECT genre_id FROM genre WHERE genre_name = 'SciFi Drama'"
@@ -50,6 +50,7 @@ try:
 
     show_films(mycursor, "DISPLAYING FILMS AFTER UPDATE - Changed Alien to Horror")
 
+#   DELETING
     delete_query = "DELETE FROM film WHERE film_name = 'Gladiator'"
     mycursor.execute(delete_query)
 
