@@ -17,7 +17,7 @@ try:
     genre_query = "SELECT * FROM genre"
     studio_query = "SELECT * FROM studio"
     sub_2h_movie_query = "SELECT film_name, film_runtime FROM film WHERE film_runtime < 120"
-    films_alphabetical_by_director_query = "SELECT film_name, film_director FROM film ORDER By film_director ASC"
+    films_alphabetical_by_director_query = "SELECT film_name, film_director FROM film ORDER BY film_director ASC"
 
     def get_query_result(query):
         mycursor.execute(query)

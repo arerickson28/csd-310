@@ -32,14 +32,17 @@ try:
 #   INSERTING
     insert_into_genre_query = "INSERT INTO genre (genre_name) VALUES ('SciFi Drama')"
     mycursor.execute(insert_into_genre_query)
+    # db.commit()
     select_genre_sub_query = "SELECT genre_id FROM genre WHERE genre_name = 'SciFi Drama'"
 
     insert_into_studio_query = "INSERT INTO studio (studio_name) VALUES ('FilmNation Entertainment')"
     mycursor.execute(insert_into_studio_query)
+    # db.commit()
     select_studio_sub_query = "SELECT studio_id FROM studio WHERE studio_name = 'FilmNation Entertainment'"
 
     insert_into_film_query = f"INSERT INTO film (film_name, film_releaseDate, film_runtime,film_director, genre_id, studio_id) VALUES ('Arrival', '2016', '116', 'Denis Villeneuve', ({select_genre_sub_query}), ({select_studio_sub_query}))"
     mycursor.execute(insert_into_film_query)
+    # db.commit()
 
     show_films(mycursor, "DISPLAYING FILMS AFTER INSERT")
 
