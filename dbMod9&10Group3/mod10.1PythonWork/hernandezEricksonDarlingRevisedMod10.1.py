@@ -62,14 +62,14 @@ def create_tables(config):
             );""",
             """CREATE TABLE vaccinations(
                id int NOT NULL AUTO_INCREMENT,
-               vaccionationName varchar(255) NOT NULL,
+               vaccinationName varchar(255) NOT NULL,
                PRIMARY KEY(id)
             );""",
             """CREATE TABLE customer_vaccinations(
                customerId int NOT NULL,
-               vaccinationId int NOT NULL
+               vaccinationId int NOT NULL,
                FOREIGN KEY(customerId) REFERENCES customers(id),
-               FOREIGN KEY(vaccinatiionId) REFERENCES vaccinations(id));
+               FOREIGN KEY(vaccinationId) REFERENCES vaccinations(id)
             );""",
             """CREATE TABLE trip_type(
                id int NOT NULL AUTO_INCREMENT,
@@ -81,11 +81,12 @@ def create_tables(config):
                tripTypeId int NOT NULL,
                excursionDate date DEFAULT (CURRENT_DATE),
                visaRequired bool DEFAULT false,
-               airFarePerPerson int decimal(30, 2),
+               aireFarePerPerson decimal(30, 2),
                minimumNumCustomers int DEFAULT 1,
+               PRIMARY KEY(id),
                FOREIGN KEY(tripTypeId) REFERENCES trip_type(id)
             );""",
-            """CREATE TABLE customer_excursion(
+            """CREATE TABLE customer_excursions(
                excursionId int NOT NULL,
                customerId int NOT NULL,
                FOREIGN KEY(excursionId) REFERENCES excursions(id),
@@ -93,14 +94,14 @@ def create_tables(config):
             );""",
             """CREATE TABLE required_trip_vaccinations(
                tripId int NOT NULL,
-               vaccinationId NOT NULL,
+               vaccinationId int NOT NULL,
                FOREIGN KEY(tripId) REFERENCES trip_type(id),
                FOREIGN KEY(vaccinationId) REFERENCES vaccinations(id)
             );""",
             """CREATE TABLE equipment(
                id int NOT NULL AUTO_INCREMENT,
                equipmentName varchar(255) NOT NULL,
-               equipmentRentalPrice decimal(30, 2) DEFUALT 0.99,
+               equipmentRentalPrice decimal(30, 2) DEFAULT 0.99,
                equipmentSalePrice decimal(30, 2) DEFAULT 0.99,
                PRIMARY KEY(id)
             );""",
@@ -122,7 +123,7 @@ def create_tables(config):
             );""",
             """CREATE TABLE equipment_units(
                id int NOT NULL AUTO_INCREMENT,
-               equipmentID NOT NULL,
+               equipmentID int NOT NULL,
                purchaseDate date DEFAULT (CURRENT_DATE),
                PRIMARY KEY(id),
                FOREIGN KEY(equipmentId) REFERENCES equipment(id)
@@ -194,16 +195,16 @@ def create_tables(config):
                (5, 4);""",
             """INSERT equipment(equipmentName, equipmentRentalPrice, equipmentSalePrice)
                VALUES
-               ('sleeping pads', 199.99, 40.00),
-               ('tent', 550.00, 80.00),
-               ('backpack', 79.00, 25.00),
-               ('flashlight, 20.00, 5.00),
-               ('sleeping bag', 88.00, 15.00),
-               ('camp chair', 155.00, 20.00);""",
+               ('sleeping pads', 40.00, 199.99),
+               ('tent', 80.00, 550.00),
+               ('backpack', 25.00, 79.00),
+               ('flashlight', 5.00, 20.00),
+               ('sleeping bag', 15.00, 88.00),
+               ('camp chair', 20.00, 155.00);""",
             """INSERT equipment_trip(equipmentId, tripId)
                VALUES
                (1, 5),
-               (1, 6),
+               (1, 5),
                (2, 3),
                (2, 1),
                (2, 2),
@@ -211,7 +212,7 @@ def create_tables(config):
                (3, 4),
                (3, 1),
                (4, 4),
-               (5, 6)""",
+               (5, 4)""",
             """INSERT equipment_sales(equipmentId, wasRented, unitsRequisitioned, customerId)
                VALUES
                (1, true, 2, 1),
@@ -263,14 +264,14 @@ def create_tables(config):
         
         #DISPLAY TABLE CONTENTS
         def display_message(tableName):
-            print(f"\n--DISPLAYING {tableName}--")
+            print(f"\n--DISPLAYING {tableName}--\n")
         #Display customers table
         cursor.execute("""SELECT *
                        FROM customers""")
         
         display_message("customers")
         for customer in cursor:
-            print(f"\nCustomer ID: {customer[0]} | First Name: {customer[1]} | Last Name: {customer[2]} | Excursion ID: {customer[3]} | Booking Date: {customer[4]}")
+            print(f"Customer ID: {customer[0]}\nFirst Name: {customer[1]}\nLast Name: {customer[2]}\nExcursion ID: {customer[3]}\nBooking Date: {customer[4]}\n")
         
         #Display Vaccinations table
         cursor.execute("""SELECT *
@@ -278,7 +279,7 @@ def create_tables(config):
         
         display_message("vaccinations")
         for vaccination in cursor:
-            print(f"\nVaccination ID: {vaccination[0]} | Vaccination Name: {vaccination[1]}")
+            print(f"Vaccination ID: {vaccination[0]}\nVaccination Name: {vaccination[1]}\n")
 
         #Display Customer Vaccinations table
         cursor.execute("""SELECT *
@@ -286,7 +287,7 @@ def create_tables(config):
         
         display_message("customer_vaccinations")
         for customer_vaccination in cursor:
-            print(f"\nCustomer ID: {customer_vaccination[0]} | Vaccination ID: {customer_vaccination[1]}")
+            print(f"Customer ID: {customer_vaccination[0]}\nVaccination ID: {customer_vaccination[1]}\n")
 
         #Display Trip Type table
         cursor.execute("""SELECT *
@@ -294,7 +295,7 @@ def create_tables(config):
         
         display_message("trip_type")
         for trip in cursor:
-            print(f"\nTrip ID: {trip[0]} | Trip Name: {trip[1]}")
+            print(f"\nTrip ID: {trip[0]}\nTrip Name: {trip[1]}\n")
 
         #Display Excursions table
         cursor.execute("""SELECT *
@@ -302,15 +303,15 @@ def create_tables(config):
         
         display_message("excursions")
         for excursion in cursor:
-            print(f"\nExcursion ID: {excursion[0]} | Trip Type ID: {excursion[1]} | Excursion Date: {excursion[2]} | Visa Required: {excursion[3]} | Aire Faire/Person: ${excursion[4]} | Min Num of Customers: {excursion[5]}")
-
+            print(f"\nExcursion ID: {excursion[0]}\nTrip Type ID: {excursion[1]}\nExcursion Date: {excursion[2]}\nVisa Required: {excursion[3]}\nAire Faire/Person: ${excursion[4]}\nMin Num of Customers: {excursion[5]}\n")
+            
         #Display Customer Excursions table
         cursor.execute("""SELECT *
                        FROM customer_excursions""")
         
         display_message("customer_excursions")
         for customer_excursion in cursor:
-            print(f"\nExcursion ID: {customer_excursion[0]} | Customer ID: {customer_excursion[1]}")
+            print(f"\nExcursion ID: {customer_excursion[0]}\nCustomer ID: {customer_excursion[1]}\n")
 
         #Display Required Trip Vaccinations table
         cursor.execute("""SELECT *
@@ -318,39 +319,40 @@ def create_tables(config):
         
         display_message("required_trip_vaccinations")
         for required_trip_vaccination in cursor:
-            print(f"\nTrip ID: {required_trip_vaccination[0]} | Vaccination ID: {required_trip_vaccination[1]}")
-
+            print(f"\nTrip ID: {required_trip_vaccination[0]}\nVaccination ID: {required_trip_vaccination[1]}\n")
+            
         #Display Equipment table
         cursor.execute("""SELECT *
                        FROM equipment""")
         
         display_message("equipment")
         for equip in cursor:
-            print(f"\nEquipment ID: {equip[0]} | Equipment Name: {equip[1]} | Equipment Rental Price: ${equip[2]} | Equipment Sale Price: ${equip[3]}")
-
+            print(f"\nEquipment ID: {equip[0]}\nEquipment Name: {equip[1]}\nEquipment Rental Price: ${equip[2]}\nEquipment Sale Price: ${equip[3]}\n")
+    
         #Display Equpment Trip table
         cursor.execute("""SELECT *
                        FROM equipment_trip""")
         
         display_message("equipment_trip")
         for equip_trip in cursor:
-            print(f"\nEquipment ID: {equip_trip[0]} | Trip ID: {equip_trip[1]}")
-
+            print(f"\nEquipment ID: {equip_trip[0]}\nTrip ID: {equip_trip[1]}\n")
+            
         #Display Equipment Sales table
         cursor.execute("""SELECT *
                        FROM equipment_sales""")
         
         display_message("equipment_sales")
         for equip_sale in cursor:
-            print(f"\nSale ID: {equip_sale[0]} | Equipment ID: {equip_sale[1]} | Was Rented: {equip_sale[2]} | Units Requisitioned: {equip_sale[3]} | Customer Id: {equip_sale[4]}")
-
+            print(f"\nSale ID: {equip_sale[0]}\nEquipment ID: {equip_sale[1]}\nWas Rented: {equip_sale[2]}\nUnits Requisitioned: {equip_sale[3]}\nCustomer Id: {equip_sale[4]}\n")
+            
         #Display Equipment Units table
         cursor.execute("""SELECT *
                        FROM equipment_units""")
         
         display_message("equipment_units")
         for unit in cursor:
-            print(f"\nUnit ID: {unit[0]} | Equipment ID: {unit[1]} | Date Purchased: {unit[2]}")
+            print(f"\nUnit ID: {unit[0]}\nEquipment ID: {unit[1]}\nDate Purchased: {unit[2]}\n")
+    
 
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
