@@ -114,6 +114,7 @@ def display_remaining_vaccinatons_needed_for_each_customer(my_cursor):
         # Finally, for each customer in the "to be removed" list, remove them from the dictionary
         for customer in customers_to_pop:
             needed_customer_vacc_dict.pop(customer)
+
         return needed_customer_vacc_dict
     
     # Final dictionary of customers and their corresponding list of needed vaccinatons that they don't have yet
@@ -123,14 +124,14 @@ def display_remaining_vaccinatons_needed_for_each_customer(my_cursor):
     def display_needed_customer_vaccs(needed_customer_vacc_dict):
         print("---DISPLAYING REMAINING NEEDED VACCINATONS TO FULFILL TRIP REQUIREMENTS---\n")
         for customer in needed_customer_vacc_dict:
-            print(f"--Customer with last name of {customer} still needs the following vaccinatons:")
+            print(f"--Customer with last name of {customer} still needs the following vaccinations:")
             for vacc in needed_customer_vacc_dict[customer]:
                 print(f"the {vacc.upper()} vaccinaton\n")
 
     # Use the display function to display report
     display_needed_customer_vaccs(needed_customer_vacc_dict)
 # ---------
-# Note: that in the data, there is no customer who is going on two excursions, this makes this report less interesting
+# Note: in the data, there is no customer who is going on two excursions, this makes this report less interesting
 # Note: three out of five of the customers in the data are going to Fjords of Norway which doesn't require any vaccinations, this makes the report less interesting
 # Consider: Changing the data to make the report more interesting?
 #----------
@@ -169,6 +170,6 @@ def main():
     display_reports(config)
 
     input("\nPress ENTER to exit...")
-
+# hello test
 if __name__ == '__main__':
     main()
